@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kudzai Tree Felling & Pruning</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-deep: #1a3a1a;
+    --green-mid: #2d5a27;
+    --green-bright: #4a8c3f;
+    --green-light: #7aba6a;
+    --cream: #f5f0e8;
+    --cream-dark: #e8e0d0;
+    --bark: #6b4226;
+    --text-dark: #1a1a1a;
+    --text-mid: #4a4a4a;
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--green-deep);
+    padding: 1rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em; }
+  .nav-brand span { color: var(--green-light); }
+  .nav-cta {
+    background: var(--green-bright); color: var(--white);
+    border: none; padding: 0.5rem 1.2rem; border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green-light); }
+
+  /* HERO */
+  .hero {
+    background: var(--green-deep);
+    min-height: 90vh;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 50%, rgba(74,140,63,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(45,90,39,0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-tree {
+    position: absolute; right: -20px; bottom: 0;
+    width: min(420px, 55vw); opacity: 0.12;
+    pointer-events: none;
+  }
+  .hero-content { position: relative; max-width: 620px; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(74,140,63,0.25);
+    color: var(--green-light);
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.35rem 0.9rem; border-radius: 2px; border: 1px solid rgba(122,186,106,0.3);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 em { color: var(--green-light); font-style: normal; }
+  .hero p {
+    font-size: 1.05rem; line-height: 1.75;
+    color: rgba(245,240,232,0.75);
+    max-width: 480px;
+    margin-bottom: 2rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--green-bright); color: var(--white);
+    padding: 0.85rem 1.8rem; border-radius: 4px;
+    font-weight: 600; font-size: 0.95rem;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--green-light); }
+  .btn-outline {
+    border: 1.5px solid rgba(245,240,232,0.4); color: var(--cream);
+    padding: 0.85rem 1.8rem; border-radius: 4px;
+    font-weight: 500; font-size: 0.95rem;
+    text-decoration: none; transition: border-color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--cream); }
+  .hero-stats {
+    margin-top: 3rem;
+    display: flex; gap: 2.5rem; flex-wrap: wrap;
+  }
+  .stat-item { border-left: 2px solid var(--green-bright); padding-left: 0.8rem; }
+  .stat-num { font-family: 'Playfair Display', serif; color: var(--cream); font-size: 1.8rem; font-weight: 700; }
+  .stat-label { color: rgba(245,240,232,0.6); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* SECTION HEADINGS */
+  .section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-tag {
+    font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--green-bright);
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--green-deep); line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--text-mid); font-size: 1rem; line-height: 1.7; max-width: 540px; }
+
+  /* SERVICES */
+  .services-bg { background: var(--white); }
+  .services-inner { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .services-header { margin-bottom: 3rem; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .service-card {
+    background: var(--cream);
+    border: 1px solid var(--cream-dark);
+    border-radius: 6px;
+    padding: 1.8rem 1.5rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .service-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(45,90,39,0.12); }
+  .service-icon {
+    width: 48px; height: 48px;
+    background: var(--green-deep);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+  }
+  .service-card h3 { font-size: 1rem; font-weight: 600; color: var(--green-deep); margin-bottom: 0.5rem; }
+  .service-card p { font-size: 0.875rem; color: var(--text-mid); line-height: 1.6; }
+
+  /* WHY US */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  @media (max-width: 680px) { .why-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .why-visual {
+    background: var(--green-deep);
+    border-radius: 8px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .why-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(74,140,63,0.25) 0%, transparent 60%);
+  }
+  .why-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; line-height: 1.5;
+    color: var(--cream);
+    position: relative;
+  }
+  .why-quote span { color: var(--green-light); }
+  .why-author { margin-top: 1.5rem; font-size: 0.82rem; color: rgba(245,240,232,0.55); letter-spacing: 0.08em; text-transform: uppercase; position: relative; }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+  .check-list li {
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    font-size: 0.95rem; color: var(--text-mid); line-height: 1.5;
+  }
+  .check-icon {
+    flex-shrink: 0;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--green-bright);
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+
+  /* CONTACT */
+  .contact-bg { background: var(--green-deep); }
+  .contact-inner {
+    padding: 5rem 2rem; max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+  }
+  @media (max-width: 620px) { .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .contact-lede { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3.5vw, 2.2rem); color: var(--cream); line-height: 1.2; margin-bottom: 1rem; }
+  .contact-sub { color: rgba(245,240,232,0.6); font-size: 0.9rem; line-height: 1.7; }
+  .contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item { display: flex; gap: 0.9rem; align-items: center; }
+  .contact-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green-light); flex-shrink: 0; }
+  .contact-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(245,240,232,0.45); }
+  .contact-val { color: var(--cream); font-size: 0.95rem; font-weight: 500; }
+
+  /* FOOTER */
+  footer {
+    background: #0f2210; padding: 1.5rem 2rem;
+    text-align: center; color: rgba(245,240,232,0.35);
+    font-size: 0.78rem;
+  }
+  footer span { color: var(--green-light); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-content { animation: fadeUp 0.7s ease both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Kudzai <span>Tree Felling</span></div>
+  <a href="#contact" class="nav-cta">Get a Free Quote</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <svg class="hero-tree" viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg" fill="white">
+    <ellipse cx="150" cy="200" rx="120" ry="160"/>
+    <ellipse cx="150" cy="120" rx="90" ry="110"/>
+    <ellipse cx="150" cy="60" rx="60" ry="75"/>
+    <rect x="135" y="360" width="30" height="240" rx="4"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-badge">White River, South Africa</div>
+    <h1>Expert Tree Care,<br/><em>Every Branch,</em><br/>Every Season.</h1>
+    <p>Professional tree felling, pruning, stump removal, paving & painting. Serving White River and surrounding areas with trusted craftsmanship.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Get a Free Quote</a>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Satisfaction Focus</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Services Offered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">Local</div>
+        <div class="stat-label">White River Experts</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<div class="services-bg" id="services">
+  <div class="services-inner">
+    <div class="services-header">
+      <div class="section-tag">What we do</div>
+      <h2 class="section-title">Our Services</h2>
+      <p class="section-sub">From towering trees to garden finishing touches — we handle every job with precision and care.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7aba6a" stroke-width="2" stroke-linecap="round">
+            <line x1="12" y1="2" x2="12" y2="22"/><line x1="5" y1="8" x2="12" y2="6"/><line x1="5" y1="14" x2="12" y2="12"/>
+            <line x1="19" y1="8" x2="12" y2="6"/><line x1="19" y1="14" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <h3>Tree Felling</h3>
+        <p>Safe, controlled removal of trees of all sizes. We protect your property throughout the process.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7aba6a" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="8" r="5"/><line x1="12" y1="13" x2="12" y2="22"/>
+            <path d="M8 18 Q12 16 16 18"/>
+          </svg>
+        </div>
+        <h3>Tree Pruning</h3>
+        <p>Shape and maintain your trees for health and aesthetics. Improve light and airflow with expert cuts.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7aba6a" stroke-width="2" stroke-linecap="round">
+            <ellipse cx="12" cy="18" rx="8" ry="4"/><line x1="12" y1="10" x2="12" y2="14"/>
+            <circle cx="12" cy="9" r="3"/>
+          </svg>
+        </div>
+        <h3>Stump Removal</h3>
+        <p>Complete stump grinding and extraction. Leave your yard clean and ready for new life.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7aba6a" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="3" x2="9" y2="21"/>
+          </svg>
+        </div>
+        <h3>Paving</h3>
+        <p>Durable, attractive paving solutions for driveways, paths and outdoor living areas.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7aba6a" stroke-width="2" stroke-linecap="round">
+            <path d="M3 17 Q7 12 12 14 Q17 16 21 11"/><path d="M5 21 L5 15 L10 12 L15 15 L19 10"/>
+          </svg>
+        </div>
+        <h3>Painting</h3>
+        <p>Interior and exterior painting to refresh and protect your surfaces with a clean, lasting finish.</p>
+      </div>
+      <div class="service-card" style="background: var(--green-deep); border-color: var(--green-mid);">
+        <div style="margin-bottom: 1.2rem;">
+          <div class="section-tag" style="color: var(--green-light);">Ready?</div>
+        </div>
+        <h3 style="color: var(--cream); font-size: 1.05rem; margin-bottom: 0.6rem;">Get a free quote today</h3>
+        <p style="color: rgba(245,240,232,0.65); margin-bottom: 1.2rem;">No obligation. Fast response. Quality guaranteed.</p>
+        <a href="#contact" class="btn-primary" style="font-size: 0.85rem; padding: 0.65rem 1.2rem;">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY US -->
+<div class="why-grid">
+  <div class="why-visual">
+    <div class="why-quote">"The ultimate experts in <span>tree cutting</span> and outdoor services."</div>
+    <div class="why-author">— Kudzai Tree Felling &amp; Pruning</div>
+  </div>
+  <div>
+    <div class="section-tag">Why choose us</div>
+    <h2 class="section-title" style="margin-bottom: 1.5rem;">Trusted Hands,<br/>Proven Results</h2>
+    <ul class="check-list">
+      <li>
+        <div class="check-icon"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 4,7 9,1"/></svg></div>
+        Local White River specialists who know the terrain and tree species of the Lowveld
+      </li>
+      <li>
+        <div class="check-icon"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 4,7 9,1"/></svg></div>
+        Full clean-up after every job — we leave your property better than we found it
+      </li>
+      <li>
+        <div class="check-icon"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 4,7 9,1"/></svg></div>
+        One team for multiple services — tree work, stump removal, paving and painting
+      </li>
+      <li>
+        <div class="check-icon"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 4,7 9,1"/></svg></div>
+        Transparent pricing with free, no-obligation quotes for every project
+      </li>
+      <li>
+        <div class="check-icon"><svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,4 4,7 9,1"/></svg></div>
+        Reliable, professional service — we show up on time and finish the job right
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-bg" id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-tag" style="color: var(--green-light);">Get in touch</div>
+      <div class="contact-lede">Let's get started on your project</div>
+      <p class="contact-sub">Reach out for a free quote or to ask any questions. We're happy to help.</p>
+    </div>
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-val">081 077 8360</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val">kudzai@gmail.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <div>
+          <div class="contact-label">Location</div>
+          <div class="contact-val">White River, Mpumalanga, 1240<br/>South Africa</div>
+        </div>
+      </div>
+      <a href="tel:0810778360" class="btn-primary" style="margin-top: 0.5rem; display: inline-block; text-align: center;">Call Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2025 <span>Kudzai Tree Felling &amp; Pruning</span> · White River, South Africa · All rights reserved
+</footer>
+
+</body>
+</html>
