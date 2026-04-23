@@ -83,7 +83,7 @@ tailwind.config = {
     <div class="animate-fade-in"><div class="max-w-2xl"><span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary-glow"><span class="h-px w-8 bg-current"></span>About Us</span><h2 class="mt-4 font-display text-3xl md:text-5xl font-semibold text-balance leading-[1.05] text-primary">A South African team that loves trees.</h2><p class="mt-5 text-base md:text-lg leading-relaxed text-muted-foreground">Kudzai Tree Felling and Pruning was founded with one simple promise — to deliver safe, reliable and affordable tree services to homes, farms and businesses across Mbombela, White River, Hazyview and Barberton.</p></div></div>
     <div class="relative">
       <div class="absolute -inset-4 bg-gradient-leaf rounded-3xl opacity-20 blur-2xl"></div>
-      <img src="assets/team.jpg" alt="The Kudzai arborist team" loading="lazy" class="relative rounded-3xl shadow-elegant w-full object-cover aspect-[5/4]"/>
+      <img src="assets/service-garden.jpg" alt="The Kudzai arborist team" loading="lazy" class="relative rounded-3xl shadow-elegant w-full object-cover aspect-[5/4]"/>
     </div>
   </div>
 </section>
@@ -220,17 +220,5 @@ tailwind.config = {
     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
   </a>
 </div>
-<script>
-function buildWhatsAppUrl(name, phone, service, message) {
-  const text = `Hi Kudzai, I'd like a free quote.\n\n` +
-    `*Name:* ${name}\n*Phone:* ${phone}\n` +
-    (service ? `*Service:* ${service}\n` : '') +
-    `*Job details:* ${message}`;
-  return `https://wa.me/27769383950?text=${encodeURIComponent(text)}`;
-}
-document.getElementById('quote-form-about').addEventListener('submit', function(e) {
-  e.preventDefault();
-  window.open(buildWhatsAppUrl(document.getElementById('a-name').value, document.getElementById('a-phone').value, document.getElementById('a-service').value, document.getElementById('a-message').value), '_blank');
-});
-</script>
+<script src="main.js"></script>
 </body></html>

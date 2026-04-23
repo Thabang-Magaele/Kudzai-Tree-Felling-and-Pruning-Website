@@ -179,24 +179,5 @@ tailwind.config = {
   </a>
 </div>
 
-<script>
-function buildWhatsAppUrl(name, phone, service, area, message) {
-  const text = `Hi Kudzai, I'd like a free quote.\n\n` +
-    `*Name:* ${name}\n*Phone:* ${phone}\n` +
-    (service ? `*Service:* ${service}\n` : '') +
-    (area ? `*Area:* ${area}\n` : '') +
-    `*Job details:* ${message}`;
-  return `https://wa.me/27769383950?text=${encodeURIComponent(text)}`;
-}
-document.getElementById('quote-form-contact').addEventListener('submit', function(e) {
-  e.preventDefault();
-  window.open(buildWhatsAppUrl(
-    document.getElementById('c-name').value,
-    document.getElementById('c-phone').value,
-    document.getElementById('c-service').value,
-    document.getElementById('c-area').value,
-    document.getElementById('c-message').value
-  ), '_blank');
-});
-</script>
+<script src="main.js"></script>
 </body></html>
