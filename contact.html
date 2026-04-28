@@ -44,9 +44,7 @@ tailwind.config = {
 <header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-500 bg-background/90 backdrop-blur-lg shadow-soft">
   <div class="container flex h-20 items-center justify-between">
     <a href="index.html" class="flex items-center gap-3 group">
-      <span class="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-leaf shadow-soft transition-transform duration-500 group-hover:rotate-12">
-        <svg viewBox="0 0 24 24" fill="none" class="h-6 w-6 text-background" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M12 12c-3 0-6-2-6-6 0-2 1-4 3-4 1 0 2 1 3 2 1-1 2-2 3-2 2 0 3 2 3 4 0 4-3 6-6 6z"/><path d="M5 18c2 0 4-1 4-3"/><path d="M19 18c-2 0-4-1-4-3"/></svg>
-      </span>
+      <img src="assets/img-logo.jpg" alt="Kudzai Logo" class="h-12 w-12 object-contain transition-transform duration-500 group-hover:rotate-12" />
       <span class="flex flex-col leading-none">
         <span class="font-display text-lg font-bold text-primary">Kudzai</span>
         <span class="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Tree Felling &amp; Pruning</span>
@@ -159,15 +157,46 @@ tailwind.config = {
 <footer class="bg-primary text-primary-foreground relative overflow-hidden mt-auto">
   <div class="container relative py-16 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
     <div>
-      <div class="flex items-center gap-3"><span class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-leaf shadow-soft"><svg viewBox="0 0 24 24" fill="none" class="h-6 w-6 text-background" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M12 12c-3 0-6-2-6-6 0-2 1-4 3-4 1 0 2 1 3 2 1-1 2-2 3-2 2 0 3 2 3 4 0 4-3 6-6 6z"/></svg></span><span class="flex flex-col leading-none"><span class="font-display text-lg font-bold text-background">Kudzai</span><span class="text-[10px] uppercase tracking-[0.2em] text-background/70">Tree Felling &amp; Pruning</span></span></div>
+      <div class="flex items-center gap-3">
+      <img src="assets/img-logo.jpg" alt="Kudzai Logo" class="h-12 w-12 object-contain transition-transform duration-500 group-hover:rotate-12" />
+        <span class="flex flex-col leading-none">
+          <span class="font-display text-lg font-bold text-background">Kudzai</span>
+          <span class="text-[10px] uppercase tracking-[0.2em] text-background/70">Tree Felling &amp; Pruning</span>
+        </span>
+      </div>
       <p class="mt-6 text-sm text-primary-foreground/70 leading-relaxed">Safe, reliable and affordable tree services across Mbombela, White River, Hazyview and Barberton.</p>
     </div>
-    <div><h4 class="font-display text-lg mb-4">Explore</h4><ul class="space-y-2 text-sm text-primary-foreground/70"><li><a href="index.html" class="hover:text-accent">Home</a></li><li><a href="about.html" class="hover:text-accent">About Us</a></li><li><a href="services.html" class="hover:text-accent">Services</a></li><li><a href="gallery.html" class="hover:text-accent">Gallery</a></li><li><a href="contact.html" class="hover:text-accent">Contact</a></li></ul></div>
-    <div><h4 class="font-display text-lg mb-4">Services</h4><ul class="space-y-2 text-sm text-primary-foreground/70"><li>Tree Felling</li><li>Bush Clearing</li><li>Rubble Removal</li><li>Tree Harvesting</li><li>Orchard Pruning (Macadamia, Citrus, Avocado)</li></ul></div>
-    <div><h4 class="font-display text-lg mb-4">Get in touch</h4><ul class="space-y-3 text-sm text-primary-foreground/70"><li>📞 <a href="tel:+27769383950">076 938 3950</a></li><li>✉️ <a href="mailto:info@kudzaitrees.co.za">info@kudzaitrees.co.za</a></li><li>📍 205 Chief Myengi Khumalo, White River</li><li>🗺️ Mbombela · White River · Hazyview · Barberton</li></ul></div>
+    <div>
+      <h4 class="font-display text-lg mb-4">Explore</h4>
+      <ul class="space-y-2 text-sm text-primary-foreground/70">
+        <li><a href="index.html" class="hover:text-accent">Home</a></li>
+        <li><a href="about.html" class="hover:text-accent">About Us</a></li>
+        <li><a href="services.html" class="hover:text-accent">Services</a></li>
+        <li><a href="gallery.html" class="hover:text-accent">Gallery</a></li>
+        <li><a href="contact.html" class="hover:text-accent">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-display text-lg mb-4">Services</h4>
+      <ul class="space-y-2 text-sm text-primary-foreground/70">
+        <li>Tree Felling</li><li>Bush Clearing</li><li>Rubble Removal</li><li>Tree Harvesting</li><li>Orchard Pruning (Macadamia, Citrus, Avocado)</li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-display text-lg mb-4">Get in touch</h4>
+      <ul class="space-y-3 text-sm text-primary-foreground/70">
+        <li>📞 <a href="tel:+27769383950">076 938 3950</a></li>
+        <li>📍 205 Chief Myengi Khumalo, White River</li>
+        <li>🗺️ Mbombela · White River · Hazyview · Barberton</li>
+      </ul>
+    </div>
   </div>
-  <div class="border-t border-primary-foreground/10"><div class="container py-6 flex flex-col md:flex-row justify-between text-xs text-primary-foreground/60 gap-2">      <p>© 2026 Thabang Magaele. All rights reserved.</p>
-<p>Fully insured · Experienced team · Free quotations</p></div></div>
+  <div class="border-t border-primary-foreground/10">
+    <div class="container py-6 flex flex-col md:flex-row justify-between text-xs text-primary-foreground/60 gap-2">
+      <p>© 2026 Thabang Magaele. All rights reserved.</p>
+      <p>Fully insured · Experienced team · Free quotations</p>
+    </div>
+  </div>
 </footer>
 
 <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
